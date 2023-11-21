@@ -1,7 +1,6 @@
-import { authControllerGetSessionInfo } from "@/shared/api/generated";
+import { useSessionQuery } from "@/entities/session/queries";
 import { routes } from "@/shared/routes/routes";
 import { UIPageSpinner } from "@/shared/ui/ui-page-spinner";
-import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { PropsWithChildren, ReactElement } from "react";
 
@@ -10,12 +9,7 @@ export function protectedPage<P>(Component: (props: P) => ReactElement) {
 
     const router = useRouter();
 
-    const { data, isLoading, isError } = useQuery({
-      queryFn: authControllerGetSessionInfo,
-      queryKey: ["session"],
-      retry: 0,
-      staleTime: 5 * 60 * 1000
-    });
+    const { isLoading, isError } = useSessionQuery();
 
     if (isLoading) {
       return <UIPageSpinner/>

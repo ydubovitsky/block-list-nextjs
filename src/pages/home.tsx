@@ -1,18 +1,14 @@
+import { useSessionQuery } from "@/entities/session/queries";
 import { SignOutButton } from "@/features/auth";
-import { authControllerGetSessionInfo } from "@/shared/api/generated";
 import { UIButton } from "@/shared/ui/ui-button";
 import { UIHeader } from "@/shared/ui/ui-header";
 import { UILink } from "@/shared/ui/ui-link";
 import { UISelectField } from "@/shared/ui/ui-select-field";
 import { UISpinner } from "@/shared/ui/ui-spinner";
 import { UITextField } from "@/shared/ui/ui-text-field";
-import { useQuery } from "@tanstack/react-query";
 
 export default function HomePage() {
-  const { data } = useQuery({
-    queryKey: ["session"],
-    queryFn: () => authControllerGetSessionInfo(),
-  });
+  const { data } = useSessionQuery();
 
   const headerContent = () => (
     <div className="">
