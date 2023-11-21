@@ -1,4 +1,4 @@
-import { authControllerSignUp } from "@/shared/api/generated";
+import { authControllerSignIn, authControllerSignUp } from "@/shared/api/generated";
 import { routes } from "@/shared/routes/routes";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
@@ -9,24 +9,24 @@ type FormType = {
   password: string;
 };
 
-export function useSignUpForm() {
+export function useSignInForm() {
   const router = useRouter();
 
   const { register, handleSubmit } = useForm<FormType>({});
 
-  const signUpData = useMutation({
-    mutationFn: authControllerSignUp,
+  const signInForm = useMutation({
+    mutationFn: authControllerSignIn,
     onSuccess() {
       router.push(routes.HONE);
     },
   });
 
-  const errorMessage = signUpData.error ? "Sign up error" : undefined;
+  const errorMessage = signInForm.error ? "Sign in error" : undefined;
 
   return {
     register,
-    handleSubmit: handleSubmit((data) => signUpData.mutate(data)),
-    isLoading: signUpData.isPending,
+    handleSubmit: handleSubmit((data) => signInForm.mutate(data)),
+    isLoading: signInForm.isPending,
     errorMessage: errorMessage
   }
 }

@@ -3,14 +3,14 @@ import { UIButton } from "@/shared/ui/ui-button";
 import { UILink } from "@/shared/ui/ui-link";
 import { UITextField } from "@/shared/ui/ui-text-field";
 import clsx from "clsx";
-import { useSignUpForm } from "../model/use-sign-up-form";
+import { useSignInForm } from "../model/use-sign-in-form";
 
-type SignUpFormProps = {
+type SignInFormProps = {
   className?: string;
 };
 
-export function SignUpForm({ className }: SignUpFormProps) {
-  const { handleSubmit, isLoading, errorMessage, register } = useSignUpForm();
+export function SignInForm({ className }: SignInFormProps) {
+  const { handleSubmit, isLoading, errorMessage, register } = useSignInForm();
 
   return (
     <form
@@ -29,10 +29,10 @@ export function SignUpForm({ className }: SignUpFormProps) {
         }}
       />
       <UIButton disabled={isLoading} variant="primary">
-        Sign Up
-      </UIButton>
-      <UILink className="text-center" href={routes.SIGN_IN}>
         Sign In
+      </UIButton>
+      <UILink className="text-center" href={routes.SIGN_UP}>
+        Sign Up
       </UILink>
       {errorMessage && <div className="text-rose-500 text-center">{errorMessage}</div>}
     </form>
