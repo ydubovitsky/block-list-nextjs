@@ -1,37 +1,21 @@
-import { authControllerSignUp } from "@/shared/api/generated";
-import { UIButton } from "@/shared/ui/ui-button";
-import { UITextField } from "@/shared/ui/ui-text-field";
-import { useMutation } from "@tanstack/react-query";
-import clsx from "clsx";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
 import { routes } from "@/shared/routes/routes";
+import { UIButton } from "@/shared/ui/ui-button";
+import { UILink } from "@/shared/ui/ui-link";
+import { UITextField } from "@/shared/ui/ui-text-field";
+import clsx from "clsx";
+import { useSignUpForm } from "../model/use-sign-up-form";
 
 type SignUpFormProps = {
   className?: string;
 };
 
-type FormType = {
-  email: string;
-  password: string;
-};
-
 export function SignUpForm({ className }: SignUpFormProps) {
-  const router = useRouter();
-
-  const { register, handleSubmit } = useForm<FormType>({});
-
-  const signUpData = useMutation({
-    mutationFn: authControllerSignUp,
-    onSuccess() {
-      router.push(routes.HONE);
-    },
-  });
+  const { handleSubmit, isLoading, register } = useSignUpForm();
 
   return (
     <form
       className={clsx("flex flex-col gap-2", className)}
-      onSubmit={handleSubmit((data) => signUpData.mutate(data))}
+      onSubmit={handleSubmit}
     >
       <UITextField
         label="Email"
@@ -44,9 +28,10 @@ export function SignUpForm({ className }: SignUpFormProps) {
           ...register("password", { required: true }),
         }}
       />
-      <UIButton disabled={signUpData.isPending} variant="primary">
+      <UIButton disabled={isLoading} variant="primary">
         Sign Up
       </UIButton>
+      <UILink className="text-center" href={routes.SIGN_IN}>Sign In</UILink>
     </form>
   );
 }
