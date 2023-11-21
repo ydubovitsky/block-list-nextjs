@@ -1,3 +1,4 @@
+import { SignOutButton } from "@/features/auth";
 import { authControllerGetSessionInfo } from "@/shared/api/generated";
 import { UIButton } from "@/shared/ui/ui-button";
 import { UIHeader } from "@/shared/ui/ui-header";
@@ -13,11 +14,16 @@ export default function HomePage() {
     queryFn: () => authControllerGetSessionInfo(),
   });
 
+  const headerContent = () => (
+    <div className="">
+      {data?.email}
+      <SignOutButton />
+    </div>
+  );
+
   return (
-    <main
-      className={`min-h-screen`}
-    >
-      <UIHeader content={data?.email}/>
+    <main className={`min-h-screen`}>
+      <UIHeader content={headerContent()} />
       <UIButton variant="primary">primary</UIButton>
       <UIButton variant="secondary">secondary</UIButton>
       <UIButton variant="outlined">outlined</UIButton>
